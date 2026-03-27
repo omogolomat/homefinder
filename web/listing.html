@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="homefinder-api-base" content=""/>
+<meta name="findbw-api-base" content=""/>
+<meta name="supabase-url" content=""/>
+<meta name="supabase-anon-key" content=""/>
+<title>Property listing — HomeFinder Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--orange:#F47B20;--orange-light:#FFF0E0;--orange-dark:#C25E10;--blue:#1A4A7A;--blue-mid:#2D72C4;--blue-light:#E8F2FF;--blue-pale:#F0F6FF;--green:#2A9D54;--green-light:#E6F7ED;--green-dark:#1F7A40;--ink:#0D1B2A;--ink-70:rgba(13,27,42,0.70);--ink-40:rgba(13,27,42,0.40);--ink-15:rgba(13,27,42,0.08);--white:#FFFFFF;--surface:#F7F8FA;--border:rgba(13,27,42,0.10);--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--radius-xl:32px;--shadow-sm:0 2px 8px rgba(13,27,42,0.07);--shadow-md:0 8px 28px rgba(13,27,42,0.11);--shadow-lg:0 20px 60px rgba(13,27,42,0.14);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--ink);background:var(--surface);line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(244,123,32,0.38);}
+.nav-logo-icon svg{width:20px;height:20px;fill:white;}
+.nav-logo-text{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--blue);}
+.nav-logo-text span{color:var(--orange);}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{font-size:14px;font-weight:500;padding:6px 14px;border-radius:var(--radius-sm);color:var(--ink-70);transition:color .2s,background .2s;}
+.nav-link:hover{color:var(--blue);background:var(--blue-pale);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.btn-ghost{font-size:14px;font-weight:500;padding:9px 18px;border-radius:var(--radius-sm);color:var(--blue);border:1.5px solid var(--blue-light);transition:all .2s;}
+.btn-ghost:hover{background:var(--blue-light);}
+.btn-primary{font-size:14px;font-weight:600;padding:9px 20px;border-radius:var(--radius-sm);color:white;background:linear-gradient(135deg,var(--orange),var(--orange-dark));box-shadow:0 3px 10px rgba(244,123,32,0.30);transition:all .2s;}
+.btn-primary:hover{transform:translateY(-1px);}
+
+/* BREADCRUMB */
+.breadcrumb-bar{margin-top:68px;padding:14px 0;background:white;border-bottom:1px solid var(--border);}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-40);}
+.breadcrumb a{color:var(--blue);}
+
+/* GALLERY */
+.gallery-section{background:white;}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:320px 160px;gap:4px;max-height:484px;overflow:hidden;}
+.gallery-main{grid-row:span 2;}
+.gallery-slot{position:relative;overflow:hidden;cursor:pointer;}
+.gallery-slot:hover .gallery-slot-img{transform:scale(1.04);}
+.gallery-slot-img{position:absolute;inset:0;transition:transform .4s;}
+.g1{background:linear-gradient(155deg,#1A4A7A,#C25E10 60%,#2A9D54);}
+.g2{background:linear-gradient(145deg,#2A9D54,#1A4A7A 60%,#F47B20);}
+.g3{background:linear-gradient(160deg,#F47B20,#1A4A7A 60%,#2A9D54);}
+.gallery-count-btn{position:absolute;bottom:16px;right:16px;background:rgba(13,27,42,0.75);color:white;font-size:13px;font-weight:600;padding:7px 16px;border-radius:var(--radius-sm);backdrop-filter:blur(8px);display:flex;align-items:center;gap:6px;transition:background .2s;}
+.gallery-count-btn:hover{background:rgba(13,27,42,0.9);}
+.gallery-count-btn svg{width:14px;height:14px;}
+
+/* PAGE LAYOUT */
+.listing-layout{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:28px 0 64px;}
+
+/* MAIN CONTENT */
+.listing-main{}
+.listing-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-sm);padding:28px;margin-bottom:20px;}
+.listing-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+.listing-badges{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:100px;}
+.badge-sale{background:var(--orange);color:white;}
+.badge-featured{background:var(--orange-light);color:var(--orange-dark);}
+.badge-verified{background:var(--green-light);color:var(--green-dark);}
+.listing-title{font-family:var(--font-display);font-size:28px;font-weight:800;line-height:1.15;color:var(--ink);margin-bottom:8px;}
+.listing-location{display:flex;align-items:center;gap:5px;font-size:14px;color:var(--ink-40);}
+.listing-location svg{width:14px;height:14px;flex-shrink:0;}
+.listing-price-wrap{}
+.listing-price{font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--blue);line-height:1;}
+.listing-price-note{font-size:13px;color:var(--ink-40);margin-top:4px;}
+.listing-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.action-btn{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:8px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);color:var(--ink-70);transition:all .2s;}
+.action-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-pale);}
+.action-btn svg{width:15px;height:15px;}
+.action-btn.fav.active{border-color:var(--orange);color:var(--orange);background:var(--orange-light);}
+
+/* KEY SPECS */
+.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.spec-item{background:var(--surface);border-radius:var(--radius-md);padding:16px;text-align:center;}
+.spec-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+.spec-icon.orange{background:var(--orange-light);}
+.spec-icon.blue{background:var(--blue-light);}
+.spec-icon.green{background:var(--green-light);}
+.spec-icon svg{width:18px;height:18px;}
+.spec-val{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--ink);}
+.spec-lbl{font-size:11px;color:var(--ink-40);margin-top:2px;}
+
+/* TABS */
+.listing-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:24px;}
+.listing-tab{font-size:14px;font-weight:500;padding:10px 18px;color:var(--ink-40);position:relative;transition:color .2s;cursor:pointer;}
+.listing-tab.active{color:var(--blue);}
+.listing-tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--blue);border-radius:1px;}
+
+/* DESCRIPTION */
+.description-text{font-size:15px;color:var(--ink-70);line-height:1.75;margin-bottom:16px;}
+.description-text strong{color:var(--ink);font-weight:600;}
+.show-more-btn{font-size:14px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:4px;}
+.show-more-btn::after{content:'→';}
+
+/* FEATURES LIST */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}
+.feature-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-70);}
+.feature-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+/* MAP PLACEHOLDER */
+.map-placeholder{height:280px;background:linear-gradient(145deg,#e8f2ff,#d0e4f7);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.map-pin{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);}
+.map-pin svg{width:40px;height:40px;filter:drop-shadow(0 4px 8px rgba(26,74,122,0.3));}
+.map-grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(26,74,122,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(26,74,122,0.06) 1px,transparent 1px);background-size:32px 32px;}
+.map-label{position:absolute;bottom:16px;left:16px;background:white;border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;font-weight:500;color:var(--ink);box-shadow:var(--shadow-sm);}
+
+/* SIDEBAR */
+.listing-sidebar{}
+.sidebar-sticky{position:sticky;top:88px;display:flex;flex-direction:column;gap:16px;}
+.contact-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-md);padding:24px;overflow:hidden;position:relative;}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));}
+.agent-info{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.agent-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;font-weight:700;color:white;flex-shrink:0;box-shadow:0 4px 12px rgba(26,74,122,0.3);}
+.agent-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--ink);}
+.agent-agency{font-size:13px;color:var(--ink-40);margin-top:2px;}
+.agent-stars{display:flex;align-items:center;gap:4px;margin-top:4px;}
+.star{font-size:12px;color:var(--orange);}
+.agent-rating{font-size:12px;font-weight:500;color:var(--ink-70);}
+.agent-verified{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--green-dark);background:var(--green-light);padding:3px 8px;border-radius:100px;margin-top:4px;}
+.contact-form{display:flex;flex-direction:column;gap:10px;}
+.contact-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-family:var(--font-body);font-size:14px;color:var(--ink);outline:none;transition:border-color .2s;}
+.contact-input:focus{border-color:var(--blue-mid);}
+.contact-input::placeholder{color:var(--ink-40);}
+.contact-textarea{resize:vertical;min-height:90px;}
+.contact-submit{width:100%;padding:13px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:white;font-weight:600;font-size:14px;border-radius:var(--radius-sm);box-shadow:0 3px 10px rgba(244,123,32,0.28);transition:all .2s;}
+.contact-submit:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(244,123,32,0.4);}
+.contact-or{text-align:center;font-size:12px;color:var(--ink-40);margin:4px 0;}
+.contact-phone{width:100%;padding:11px;border:1.5px solid var(--green);color:var(--green-dark);font-weight:600;font-size:14px;border-radius:var(--radius-sm);background:var(--green-light);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.contact-phone:hover{background:var(--green);color:white;}
+.contact-phone svg{width:16px;height:16px;}
+
+/* PRICE HISTORY CARD */
+.info-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-sm);padding:20px;}
+.info-card-title{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.info-row:last-child{border-bottom:none;}
+.info-row-label{color:var(--ink-40);}
+.info-row-val{font-weight:600;color:var(--ink);}
+
+/* SIMILAR LISTINGS */
+.similar-section{padding:48px 0 64px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.section-title{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--ink);}
+.view-all{font-size:14px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:4px;}
+.view-all::after{content:'→';}
+.similar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.sim-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;}
+.sim-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.sim-img{height:160px;position:relative;overflow:hidden;}
+.sim-img-bg{position:absolute;inset:0;transition:transform .4s;}
+.sim-card:hover .sim-img-bg{transform:scale(1.04);}
+.sim-body{padding:14px 16px 16px;}
+.sim-price{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--blue);}
+.sim-name{font-size:13px;font-weight:500;color:var(--ink);margin:3px 0;}
+.sim-loc{font-size:12px;color:var(--ink-40);}
+
+/* FOOTER */
+.footer{background:var(--ink);color:white;padding:48px 0 24px;}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;margin-top:20px;}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.3);}
+.footer-copy span{color:var(--orange);}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox-img{width:90vw;max-width:900px;height:70vh;border-radius:var(--radius-md);overflow:hidden;position:relative;}
+.lightbox-close{position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);color:white;font-size:20px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.lightbox-close:hover{background:rgba(255,255,255,0.2);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.5s cubic-bezier(.22,1,.36,1) both;}
+
+@media(max-width:1024px){.listing-layout{grid-template-columns:1fr;}.listing-sidebar{order:-1;}.sidebar-sticky{position:static;}.similar-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.nav-links,.nav-actions{display:none;}.gallery-grid{grid-template-columns:1fr;grid-template-rows:280px;}.gallery-grid .gallery-slot:not(.gallery-main){display:none;}.specs-grid{grid-template-columns:repeat(2,1fr);}.features-grid{grid-template-columns:repeat(2,1fr);}.similar-grid{grid-template-columns:1fr;}.listing-title{font-size:22px;}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg></div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="search.html" class="nav-link">Buy</a>
+      <a href="search.html" class="nav-link">Rent</a>
+      <a href="search.html?type=sale" class="nav-link">Sell</a>
+      <a href="agents.html" class="nav-link">Agents</a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-ghost">Sign in</a>
+      <a href="dashboard.html" class="btn-primary">List Property</a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> <span>›</span> <a href="search.html">Buy</a> <span>›</span> <span>Gaborone</span> <span>›</span> <span>Executive Villa with Pool</span>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <div class="container" style="padding-top:16px;padding-bottom:0;">
+    <div class="gallery-grid">
+      <div class="gallery-slot gallery-main" onclick="openLightbox()">
+        <div class="gallery-slot-img g1"></div>
+        <!-- House SVG watermark -->
+        <svg style="position:absolute;bottom:20px;right:20px;width:100px;opacity:.1;fill:white;" viewBox="0 0 100 80"><path d="M5 40L50 5l45 35V76H65V50H35V76H5V40Z"/></svg>
+        <button class="gallery-count-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          View all 12 photos
+        </button>
+      </div>
+      <div class="gallery-slot" onclick="openLightbox()"><div class="gallery-slot-img g2"></div></div>
+      <div class="gallery-slot" onclick="openLightbox()"><div class="gallery-slot-img g3"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTING LAYOUT -->
+<div class="container">
+  <div class="listing-layout">
+
+    <!-- MAIN -->
+    <main class="listing-main">
+
+      <!-- Header Card -->
+      <div class="listing-card fade-up">
+        <div class="listing-header">
+          <div style="flex:1;">
+            <div class="listing-badges">
+              <span class="badge badge-sale">For Sale</span>
+              <span class="badge badge-featured">⭐ Featured</span>
+              <span class="badge badge-verified">✓ Verified</span>
+            </div>
+            <h1 class="listing-title">Executive Villa with Pool</h1>
+            <div class="listing-location">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+              Phakalane Golf Estate, Gaborone, Botswana
+            </div>
+          </div>
+          <div class="listing-price-wrap">
+            <div class="listing-price">BWP 4,850,000</div>
+            <div class="listing-price-note">Listed 3 days ago</div>
+          </div>
+        </div>
+
+        <div class="listing-actions">
+          <button class="action-btn fav" id="favBtn" onclick="toggleFav()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            Save
+          </button>
+          <button class="action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px;"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share
+          </button>
+          <button class="action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px;"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+            Compare
+          </button>
+          <button class="action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:15px;height:15px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Key Specs -->
+      <div class="listing-card fade-up" style="animation-delay:.1s;">
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg></div>
+            <div class="spec-val">5</div><div class="spec-lbl">Bedrooms</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-mid)" stroke-width="2"><path d="M4 12h16M4 12a2 2 0 01-2-2V6h20v4a2 2 0 01-2 2M6 12v8M18 12v8M6 20h12"/></svg></div>
+            <div class="spec-val">4</div><div class="spec-lbl">Bathrooms</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+            <div class="spec-val">620m²</div><div class="spec-lbl">Floor Area</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h6v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-1"/></svg></div>
+            <div class="spec-val">2</div><div class="spec-lbl">Garages</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabbed Content -->
+      <div class="listing-card fade-up" style="animation-delay:.15s;">
+        <div class="listing-tabs">
+          <div class="listing-tab active" onclick="switchTab(this,'description')">Description</div>
+          <div class="listing-tab" onclick="switchTab(this,'features')">Features</div>
+          <div class="listing-tab" onclick="switchTab(this,'location')">Location</div>
+          <div class="listing-tab" onclick="switchTab(this,'details')">Property Details</div>
+        </div>
+
+        <!-- Description -->
+        <div id="tab-description">
+          <p class="description-text">This <strong>stunning executive villa</strong> sits within the prestigious Phakalane Golf Estate — one of Gaborone's most sought-after security estates. Built to an impeccable finish, the home offers 5 bedrooms, 4 bathrooms, and a sprawling open-plan living and dining area that flows seamlessly onto a covered patio and sparkling private pool.</p>
+          <p class="description-text">The chef's kitchen is equipped with imported cabinetry, granite countertops, and a large island. The master suite occupies the entire upper level with en-suite bathroom, walk-in wardrobe, and private balcony overlooking the garden. Three further bedrooms are located on the ground floor, one of which has a private entrance ideal for extended family or domestic staff.</p>
+          <p class="description-text" id="more-text" style="display:none;">The double automated garage leads directly into the home. The estate provides 24-hour security, access control, and beautifully maintained communal areas. Located minutes from Phakalane Hotel, top schools, and the new Riverwalk Extension mall.</p>
+          <button class="show-more-btn" onclick="toggleMore(this)">Read more</button>
+        </div>
+
+        <!-- Features -->
+        <div id="tab-features" style="display:none;">
+          <div class="features-grid">
+            <div class="feature-item"><span class="feature-dot"></span>Private swimming pool</div>
+            <div class="feature-item"><span class="feature-dot"></span>Double automated garage</div>
+            <div class="feature-item"><span class="feature-dot"></span>24/7 gated estate security</div>
+            <div class="feature-item"><span class="feature-dot"></span>Solar geysers (×2)</div>
+            <div class="feature-item"><span class="feature-dot"></span>Backup borehole water</div>
+            <div class="feature-item"><span class="feature-dot"></span>Fibre internet ready</div>
+            <div class="feature-item"><span class="feature-dot"></span>Covered patio & braai area</div>
+            <div class="feature-item"><span class="feature-dot"></span>Staff / flatlet quarters</div>
+            <div class="feature-item"><span class="feature-dot"></span>Fully landscaped garden</div>
+            <div class="feature-item"><span class="feature-dot"></span>CCTV & alarm system</div>
+            <div class="feature-item"><span class="feature-dot"></span>Walk-in wardrobe</div>
+            <div class="feature-item"><span class="feature-dot"></span>Granite countertops</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div id="tab-location" style="display:none;">
+          <div class="map-placeholder">
+            <div class="map-grid-overlay"></div>
+            <div class="map-pin">
+              <svg viewBox="0 0 40 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2C10.06 2 2 10.06 2 20C2 33.5 20 53 20 53C20 53 38 33.5 38 20C38 10.06 29.94 2 20 2Z" fill="var(--orange)" stroke="white" stroke-width="2"/>
+                <circle cx="20" cy="20" r="7" fill="white"/>
+              </svg>
+            </div>
+            <div class="map-label">📍 Phakalane Golf Estate, Gaborone</div>
+          </div>
+          <div style="margin-top:16px;font-size:14px;color:var(--ink-70);line-height:1.7;">
+            <strong style="color:var(--ink);">Nearby:</strong> Phakalane Hotel & Spa (0.8km) · Pep Stores (1.2km) · Phakalane Primary School (1.5km) · Airport Junction Mall (6km) · CBD (12km)
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div id="tab-details" style="display:none;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+            <div class="info-row" style="grid-column:span 2;font-weight:600;color:var(--ink);background:var(--surface);padding:10px 14px;border-radius:var(--radius-sm);margin-bottom:4px;">Property Information</div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Property Type</span><span class="info-row-val">House / Villa</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Listing Type</span><span class="info-row-val">For Sale</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Year Built</span><span class="info-row-val">2019</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Title Deed</span><span class="info-row-val">Freehold</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Plot Size</span><span class="info-row-val">1,200m²</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Floor Area</span><span class="info-row-val">620m²</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Levy (HOA)</span><span class="info-row-val">BWP 2,400/mo</span></div>
+            <div class="info-row" style="padding:10px 0;"><span class="info-row-label">Listing Ref</span><span class="info-row-val">#HF-00842</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="listing-sidebar">
+      <div class="sidebar-sticky">
+        <!-- Contact Agent -->
+        <div class="contact-card fade-up">
+          <div class="agent-info">
+            <div class="agent-avatar">KS</div>
+            <div>
+              <div class="agent-name">Kefilwe Sithole</div>
+              <div class="agent-agency">Knight Frank Botswana</div>
+              <div class="agent-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                <span class="agent-rating">4.9 (38 reviews)</span>
+              </div>
+              <span class="agent-verified">✓ Verified Agent</span>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <input class="contact-input" type="text" placeholder="Your full name"/>
+            <input class="contact-input" type="email" placeholder="Email address"/>
+            <input class="contact-input" type="tel" placeholder="Phone number"/>
+            <textarea class="contact-input contact-textarea">Hi Kefilwe, I'm interested in this property. Could we arrange a viewing?</textarea>
+            <button class="contact-submit">Send Enquiry</button>
+            <div class="contact-or">— or call directly —</div>
+            <button class="contact-phone">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+              +267 71 234 567
+            </button>
+          </div>
+
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:center;">
+            <a href="agents.html" style="font-size:13px;font-weight:600;color:var(--blue);">View agent profile →</a>
+          </div>
+        </div>
+
+        <!-- Quick Info -->
+        <div class="info-card fade-up" style="animation-delay:.1s;">
+          <div class="info-card-title">Quick Info</div>
+          <div class="info-row"><span class="info-row-label">Reference</span><span class="info-row-val">#HF-00842</span></div>
+          <div class="info-row"><span class="info-row-label">Listed</span><span class="info-row-val">3 days ago</span></div>
+          <div class="info-row"><span class="info-row-label">Property</span><span class="info-row-val">House / Villa</span></div>
+          <div class="info-row"><span class="info-row-label">Title Deed</span><span class="info-row-val">Freehold</span></div>
+          <div class="info-row"><span class="info-row-label">Views</span><span class="info-row-val" style="color:var(--green);">1,284 this week</span></div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- SIMILAR LISTINGS -->
+<div class="similar-section" style="background:var(--surface);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">Similar Properties</div>
+      <a href="search.html" class="view-all">View all</a>
+    </div>
+    <div class="similar-grid">
+      <div class="sim-card" onclick="window.location='listing.html'">
+        <div class="sim-img"><div class="sim-img-bg" style="background:linear-gradient(145deg,#1A4A7A,#2D72C4 60%,#2A9D54)"></div><span style="position:absolute;top:10px;left:10px;" class="badge badge-sale">For Sale</span></div>
+        <div class="sim-body"><div class="sim-price">BWP 3,200,000</div><div class="sim-name">4-Bed Villa, Golf Estate</div><div class="sim-loc">📍 Phakalane, Gaborone</div></div>
+      </div>
+      <div class="sim-card" onclick="window.location='listing.html'">
+        <div class="sim-img"><div class="sim-img-bg" style="background:linear-gradient(155deg,#C25E10,#F47B20 60%,#1A4A7A)"></div><span style="position:absolute;top:10px;left:10px;" class="badge badge-sale">For Sale</span></div>
+        <div class="sim-body"><div class="sim-price">BWP 5,100,000</div><div class="sim-name">Luxury 6-Bed Estate</div><div class="sim-loc">📍 Phakalane, Gaborone</div></div>
+      </div>
+      <div class="sim-card" onclick="window.location='listing.html'">
+        <div class="sim-img"><div class="sim-img-bg" style="background:linear-gradient(160deg,#2A9D54,#1D5C3A 60%,#F47B20)"></div><span style="position:absolute;top:10px;left:10px;" class="badge badge-sale">For Sale</span></div>
+        <div class="sim-body"><div class="sim-price">BWP 2,800,000</div><div class="sim-name">Modern 4-Bed Home</div><div class="sim-loc">📍 Extension 9, Gaborone</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;padding-bottom:20px;">
+      <div>
+        <a href="index.html" class="nav-logo" style="display:inline-flex;"><div class="nav-logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg></div><span class="nav-logo-text" style="color:white;">Home<span style="color:var(--orange)">Finder</span></span></a>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:12px;max-width:240px;line-height:1.6;">Botswana's most trusted property marketplace.</p>
+      </div>
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:14px;">Property</div><div style="display:flex;flex-direction:column;gap:8px;"><a href="search.html" style="font-size:13px;color:rgba(255,255,255,0.5);">Buy a home</a><a href="search.html" style="font-size:13px;color:rgba(255,255,255,0.5);">Rent a home</a><a href="#" style="font-size:13px;color:rgba(255,255,255,0.5);">Commercial</a></div></div>
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:14px;">Agents</div><div style="display:flex;flex-direction:column;gap:8px;"><a href="dashboard.html" style="font-size:13px;color:rgba(255,255,255,0.5);">Dashboard</a><a href="agents.html" style="font-size:13px;color:rgba(255,255,255,0.5);">Find an agent</a></div></div>
+      <div><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:14px;">Company</div><div style="display:flex;flex-direction:column;gap:8px;"><a href="#" style="font-size:13px;color:rgba(255,255,255,0.5);">About us</a><a href="#" style="font-size:13px;color:rgba(255,255,255,0.5);">Contact</a></div></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>HomeFinder Botswana</span>. All rights reserved.</div>
+      <div style="display:flex;gap:14px;"><a href="#" style="font-size:12px;color:rgba(255,255,255,0.3);">Privacy</a><a href="#" style="font-size:12px;color:rgba(255,255,255,0.3);">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-img g1" style="position:relative;">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div style="position:absolute;bottom:20px;left:20px;color:white;font-family:var(--font-display);font-size:14px;font-weight:600;background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:var(--radius-sm);">Photo 1 of 12</div>
+  </div>
+</div>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/listing-detail.js" defer></script>
+</body>
+</html>

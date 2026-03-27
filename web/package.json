@@ -1,0 +1,9 @@
+{
+  "name": "findbw-web",
+  "private": true,
+  "description": "Static FindBW UI — serve this folder over HTTP next to or pointing at the FindBW API.",
+  "scripts": {
+    "dev": "npx --yes serve . -l 5173 --cors",
+    "start": "npx serve . -l 5173"
+  }
+}

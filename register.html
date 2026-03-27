@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-BW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="findbw-api-base" content=""/>
+<title>Register — FindBW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="form-page">
+
+<nav class="nav scrolled" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+  </div>
+</nav>
+
+<main class="container" style="padding-top:24px">
+  <div class="form-card form-wide">
+    <h1>Create account</h1>
+    <p class="lede">For <strong>buyers and renters</strong> — save favourites and contact agents. Estate agents and agencies do not register here: <a href="index.html#for-agents">contact FindBW to apply and advertise</a>. Admin accounts are issued by FindBW only.</p>
+    <form id="register-form">
+      <div class="form-fields">
+        <div class="form-field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required/>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone (WhatsApp)</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+267 …" required/>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required/>
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" required/>
+        </div>
+        <div class="form-field">
+          <label><input id="wa" type="checkbox" checked/> WhatsApp updates</label>
+        </div>
+      </div>
+      <p id="form-err" class="form-error" role="alert" hidden></p>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Register</button>
+        <a href="login.html" class="btn-ghost">Already have an account</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/register.js" defer></script>
+</body>
+</html>

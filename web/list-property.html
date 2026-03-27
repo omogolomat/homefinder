@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-BW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="homefinder-api-base" content=""/>
+<meta name="findbw-api-base" content=""/>
+<meta name="supabase-url" content=""/>
+<meta name="supabase-anon-key" content=""/>
+<title>List a property — HomeFinder Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="form-page">
+
+<nav class="nav scrolled" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <span class="nav-cluster nav-cluster--guest">
+        <a href="login.html" class="btn-ghost nav-signin">Sign in</a>
+        <a href="register.html" class="btn-ghost nav-register">Register</a>
+      </span>
+      <span class="nav-cluster nav-cluster--buyer" hidden>
+        <a href="index.html#explore" class="btn-ghost">Browse</a>
+        <a href="favorites.html" class="btn-ghost nav-fav">Favourites</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+      <span class="nav-cluster nav-cluster--agent" hidden>
+        <a href="favorites.html" class="btn-ghost nav-fav">Favourites</a>
+        <a href="payments.html" class="btn-ghost nav-payments">Billing</a>
+        <a href="list-property.html" class="btn-primary nav-list" aria-current="page">List property</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<main class="container" style="padding-top:24px">
+  <div id="listing-gate-signin" class="form-card form-wide">
+    <h1>List a property</h1>
+    <p class="lede">Approved agents can publish listings. Sign in with your verified agent account.</p>
+    <a href="login.html" class="btn-primary">Sign in</a>
+  </div>
+  <div id="listing-gate-buyer" class="form-card form-wide" hidden>
+    <h1>Agents &amp; agencies</h1>
+    <p class="lede">Publishing is for verified agents only. Contact HomeFinder to apply and get verified.</p>
+    <p class="lede">Rent and sale payments between you and a tenant or buyer are arranged with the listing agent — not through this page.</p>
+    <a href="index.html#for-agents" class="btn-primary">Advertising &amp; contact</a>
+  </div>
+  <div id="listing-form-root" class="form-card form-wide" hidden>
+    <h1>List a property</h1>
+    <p class="lede">Upload images (stored in Supabase) or paste image URLs below.</p>
+    <form id="listing-form">
+      <div class="form-fields">
+        <div class="form-field">
+          <label for="listingFiles">Photos</label>
+          <input id="listingFiles" name="listingFiles" type="file" accept="image/*" multiple />
+        </div>
+        <p id="listing-upload-status" class="lede" hidden aria-live="polite"></p>
+        <div class="form-field">
+          <label for="title">Title</label>
+          <input id="title" name="title" required maxlength="512"/>
+        </div>
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description"></textarea>
+        </div>
+        <div class="form-field">
+          <label for="priceBwp">Price (BWP)</label>
+          <input id="priceBwp" name="priceBwp" type="number" min="1" step="1" required/>
+        </div>
+        <div class="form-field">
+          <label for="listingType">Listing type</label>
+          <select id="listingType" name="listingType">
+            <option value="Sale">Sale</option>
+            <option value="Rent">Rent</option>
+            <option value="CommercialSale">Commercial sale</option>
+            <option value="CommercialRent">Commercial rent</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="propertyType">Property type</label>
+          <select id="propertyType" name="propertyType">
+            <option value="Plot">Plot</option>
+            <option value="House">House</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Townhouse">Townhouse</option>
+            <option value="Farm">Farm</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Office">Office</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="city">City</label>
+          <select id="city" name="city">
+            <option value="Gaborone">Gaborone</option>
+            <option value="Francistown">Francistown</option>
+            <option value="Maun">Maun</option>
+            <option value="Kasane">Kasane</option>
+            <option value="Lobatse">Lobatse</option>
+            <option value="Serowe">Serowe</option>
+            <option value="Palapye">Palapye</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="suburb">Suburb / area</label>
+          <input id="suburb" name="suburb" required />
+        </div>
+        <div class="form-field">
+          <label for="bedrooms">Bedrooms</label>
+          <input id="bedrooms" name="bedrooms" type="number" min="0" step="1"/>
+        </div>
+        <div class="form-field">
+          <label for="bathrooms">Bathrooms</label>
+          <input id="bathrooms" name="bathrooms" type="number" min="0" step="1"/>
+        </div>
+        <div class="form-field">
+          <label for="imageUrls">Extra image URLs (comma or newline, optional)</label>
+          <textarea id="imageUrls" name="imageUrls" placeholder="https://…"></textarea>
+        </div>
+      </div>
+      <p id="form-err" class="form-error" role="alert" hidden></p>
+      <p id="form-ok" class="prop-api-banner is-live" role="status" hidden style="margin-top:12px"></p>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Publish listing</button>
+        <a href="index.html" class="btn-ghost">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/list-property.js" defer></script>
+</body>
+</html>

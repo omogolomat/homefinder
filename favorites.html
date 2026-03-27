@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-BW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="homefinder-api-base" content=""/>
+<meta name="findbw-api-base" content=""/>
+<meta name="supabase-url" content=""/>
+<meta name="supabase-anon-key" content=""/>
+<title>Favourites — HomeFinder Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="form-page">
+
+<nav class="nav scrolled" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <span class="nav-cluster nav-cluster--guest">
+        <a href="login.html" class="btn-ghost nav-signin">Sign in</a>
+        <a href="register.html" class="btn-ghost nav-register">Register</a>
+      </span>
+      <span class="nav-cluster nav-cluster--buyer" hidden>
+        <a href="index.html#explore" class="btn-ghost">Browse</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+      <span class="nav-cluster nav-cluster--agent" hidden>
+        <a href="favorites.html" class="btn-ghost nav-fav" aria-current="page">Favourites</a>
+        <a href="payments.html" class="btn-ghost nav-payments">Billing</a>
+        <a href="list-property.html" class="btn-primary nav-list">List property</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<main class="container section" style="padding-top:24px">
+  <h1 class="section-title" style="margin-bottom:12px">Favourites</h1>
+  <p class="lede" style="margin-bottom:24px;color:var(--ink-70)">Saved listings while you are signed in.</p>
+  <div id="fav-root" class="prop-grid"></div>
+  <p id="fav-empty" class="form-error" hidden>No favourites yet — use the heart on a listing.</p>
+</main>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/favorites.js" defer></script>
+</body>
+</html>

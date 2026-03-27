@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="homefinder-api-base" content=""/>
+<meta name="findbw-api-base" content=""/>
+<title>Find Agents — HomeFinder Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--orange:#F47B20;--orange-light:#FFF0E0;--orange-dark:#C25E10;--blue:#1A4A7A;--blue-mid:#2D72C4;--blue-light:#E8F2FF;--blue-pale:#F0F6FF;--green:#2A9D54;--green-light:#E6F7ED;--green-dark:#1F7A40;--ink:#0D1B2A;--ink-70:rgba(13,27,42,0.70);--ink-40:rgba(13,27,42,0.40);--ink-15:rgba(13,27,42,0.08);--white:#FFFFFF;--surface:#F7F8FA;--border:rgba(13,27,42,0.10);--font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--radius-sm:8px;--radius-md:14px;--radius-lg:22px;--radius-xl:32px;--shadow-sm:0 2px 8px rgba(13,27,42,0.07);--shadow-md:0 8px 28px rgba(13,27,42,0.11);--shadow-lg:0 20px 60px rgba(13,27,42,0.14);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--ink);background:var(--white);line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;}
+img{display:block;max-width:100%;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--border);transition:box-shadow .3s;}
+.nav.scrolled{box-shadow:var(--shadow-md);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(244,123,32,0.38);}
+.nav-logo-icon svg{width:20px;height:20px;fill:white;}
+.nav-logo-text{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--blue);}
+.nav-logo-text span{color:var(--orange);}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{font-size:14px;font-weight:500;padding:6px 14px;border-radius:var(--radius-sm);color:var(--ink-70);transition:color .2s,background .2s;}
+.nav-link:hover{color:var(--blue);background:var(--blue-pale);}
+.nav-link.active{color:var(--blue);background:var(--blue-pale);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.btn-ghost{font-size:14px;font-weight:500;padding:9px 18px;border-radius:var(--radius-sm);color:var(--blue);border:1.5px solid var(--blue-light);transition:all .2s;}
+.btn-ghost:hover{background:var(--blue-light);border-color:var(--blue-mid);}
+.btn-primary{font-size:14px;font-weight:600;padding:9px 20px;border-radius:var(--radius-sm);color:white;background:linear-gradient(135deg,var(--orange),var(--orange-dark));box-shadow:0 3px 10px rgba(244,123,32,0.30);transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(244,123,32,0.38);}
+.nav-mobile-toggle{display:none;flex-direction:column;gap:5px;padding:6px;}
+.nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;}
+.mobile-nav{display:none;position:fixed;inset:0;z-index:200;background:white;flex-direction:column;padding:80px 24px 32px;gap:4px;}
+.mobile-nav.open{display:flex;}
+.mobile-nav-link{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--ink);padding:10px 0;border-bottom:1px solid var(--border);}
+.mobile-close{position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--ink);}
+
+/* HERO BANNER */
+.page-hero{background:var(--blue);padding:120px 0 72px;position:relative;overflow:hidden;}
+.page-hero-bg{position:absolute;inset:0;}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:60px 60px;}
+.page-hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,114,196,0.4) 0%,transparent 70%);top:-100px;right:-100px;}
+.page-hero-content{position:relative;z-index:2;}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px;}
+.page-title{font-family:var(--font-display);font-size:clamp(32px,5vw,60px);font-weight:800;letter-spacing:-0.03em;color:white;line-height:1.08;margin-bottom:14px;}
+.page-title em{font-style:normal;color:var(--orange);}
+.page-subtitle{font-size:17px;color:rgba(255,255,255,0.62);max-width:520px;line-height:1.65;font-weight:300;margin-bottom:36px;}
+
+/* SEARCH BAR */
+.agent-search-bar{display:flex;align-items:center;gap:12px;background:white;border-radius:var(--radius-xl);padding:8px 8px 8px 20px;max-width:640px;box-shadow:0 20px 60px rgba(0,0,0,0.20);}
+.agent-search-input{flex:1;border:none;outline:none;font-family:var(--font-body);font-size:15px;color:var(--ink);background:transparent;}
+.agent-search-input::placeholder{color:var(--ink-40);}
+.agent-search-divider{width:1px;height:28px;background:var(--border);flex-shrink:0;}
+.agent-search-select{border:none;outline:none;font-family:var(--font-body);font-size:14px;color:var(--ink);background:transparent;padding:0 8px;cursor:pointer;min-width:130px;}
+.agent-search-btn{flex-shrink:0;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:white;font-weight:600;font-size:14px;padding:12px 24px;border-radius:var(--radius-md);display:flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 4px 14px rgba(244,123,32,0.38);}
+.agent-search-btn:hover{transform:translateY(-1px);}
+.agent-search-btn svg{width:15px;height:15px;}
+
+/* STATS STRIP */
+.stats-strip{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-md);padding:20px 32px;display:flex;gap:40px;margin-top:36px;width:fit-content;}
+.strip-stat-num{font-family:var(--font-display);font-size:26px;font-weight:800;color:white;}
+.strip-stat-num span{color:var(--orange);}
+.strip-stat-lbl{font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px;}
+
+/* MAIN CONTENT */
+.agents-layout{display:grid;grid-template-columns:280px 1fr;gap:32px;padding:56px 0 96px;align-items:start;}
+
+/* SIDEBAR FILTERS */
+.filter-panel{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);padding:24px;position:sticky;top:88px;}
+.filter-section{margin-bottom:28px;}
+.filter-section:last-child{margin-bottom:0;}
+.filter-title{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.filter-clear{font-size:12px;font-weight:500;color:var(--orange);cursor:pointer;}
+.filter-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-family:var(--font-body);font-size:14px;color:var(--ink);outline:none;transition:border-color .2s;}
+.filter-input:focus{border-color:var(--blue-mid);}
+.filter-input::placeholder{color:var(--ink-40);}
+.filter-check-list{display:flex;flex-direction:column;gap:10px;}
+.filter-check{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.filter-check input{width:16px;height:16px;accent-color:var(--blue);cursor:pointer;}
+.filter-check-label{font-size:14px;color:var(--ink-70);}
+.filter-check-count{margin-left:auto;font-size:12px;color:var(--ink-40);background:var(--surface);padding:2px 7px;border-radius:100px;}
+.rating-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.rating-btn{padding:7px 14px;border-radius:100px;border:1.5px solid var(--border);font-size:13px;font-weight:500;color:var(--ink-70);transition:all .2s;cursor:pointer;}
+.rating-btn:hover,.rating-btn.active{border-color:var(--orange);background:var(--orange-light);color:var(--orange-dark);}
+.filter-apply-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--blue-mid));color:white;font-weight:600;font-size:14px;padding:13px;border-radius:var(--radius-sm);margin-top:8px;transition:all .2s;}
+.filter-apply-btn:hover{opacity:0.9;}
+
+/* AGENTS GRID */
+.agents-main{}
+.agents-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.agents-count{font-size:15px;color:var(--ink-70);}
+.agents-count strong{color:var(--ink);font-weight:700;}
+.sort-select{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:9px 36px 9px 14px;font-family:var(--font-body);font-size:14px;color:var(--ink);outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%230D1B2A' stroke-opacity='0.4' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-color:white;cursor:pointer;}
+.agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+/* AGENT CARD */
+.agent-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:pointer;}
+.agent-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.agent-card-cover{height:80px;position:relative;}
+.cover-blue{background:linear-gradient(135deg,#1A4A7A,#2D72C4);}
+.cover-orange{background:linear-gradient(135deg,#C25E10,#F47B20);}
+.cover-green{background:linear-gradient(135deg,#1F7A40,#2A9D54);}
+.cover-teal{background:linear-gradient(135deg,#0D6E7A,#1AA3B5);}
+.cover-purple{background:linear-gradient(135deg,#4A1D8A,#7B4FD4);}
+.cover-navy{background:linear-gradient(135deg,#0D1B2A,#1A4A7A);}
+.agent-card-body{padding:0 20px 20px;}
+.agent-avatar-wrap{display:flex;align-items:flex-end;justify-content:space-between;margin-top:-28px;margin-bottom:14px;}
+.agent-avatar{width:56px;height:56px;border-radius:50%;border:3px solid white;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;font-weight:800;color:white;flex-shrink:0;box-shadow:var(--shadow-sm);}
+.av-blue{background:linear-gradient(135deg,var(--blue-mid),var(--blue));}
+.av-orange{background:linear-gradient(135deg,var(--orange),var(--orange-dark));}
+.av-green{background:linear-gradient(135deg,var(--green),var(--green-dark));}
+.av-teal{background:linear-gradient(135deg,#1AA3B5,#0D6E7A);}
+.av-purple{background:linear-gradient(135deg,#7B4FD4,#4A1D8A);}
+.av-navy{background:linear-gradient(135deg,#1A4A7A,#0D1B2A);}
+.agent-verified-badge{display:flex;align-items:center;gap:4px;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;}
+.agent-verified-badge svg{width:11px;height:11px;}
+.agent-name{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.agent-agency{font-size:13px;color:var(--ink-40);margin-bottom:10px;}
+.agent-rating{display:flex;align-items:center;gap:6px;margin-bottom:14px;}
+.agent-stars{color:var(--orange);font-size:13px;letter-spacing:1px;}
+.agent-rating-num{font-size:13px;font-weight:600;color:var(--ink);}
+.agent-rating-count{font-size:12px;color:var(--ink-40);}
+.agent-location{font-size:13px;color:var(--ink-70);display:flex;align-items:center;gap:5px;margin-bottom:14px;}
+.agent-location svg{width:12px;height:12px;flex-shrink:0;stroke:var(--orange);fill:none;}
+.agent-stats{display:flex;gap:0;border-top:1px solid var(--border);padding-top:14px;margin-bottom:16px;}
+.agent-stat{flex:1;text-align:center;}
+.agent-stat:not(:last-child){border-right:1px solid var(--border);}
+.agent-stat-val{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--blue);}
+.agent-stat-lbl{font-size:11px;color:var(--ink-40);margin-top:2px;}
+.agent-card-actions{display:flex;gap:8px;}
+.agent-contact-btn{flex:1;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:white;font-weight:600;font-size:13px;padding:10px;border-radius:var(--radius-sm);text-align:center;transition:all .2s;box-shadow:0 3px 10px rgba(244,123,32,0.25);}
+.agent-contact-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(244,123,32,0.35);}
+.agent-profile-btn{padding:10px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);color:var(--blue);font-weight:500;font-size:13px;transition:all .2s;white-space:nowrap;}
+.agent-profile-btn:hover{border-color:var(--blue-mid);background:var(--blue-pale);}
+
+/* SPECIALTIES TAGS */
+.agent-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.agent-tag{font-size:11px;font-weight:500;padding:3px 9px;border-radius:100px;background:var(--surface);color:var(--ink-70);border:1px solid var(--border);}
+.agent-tag.orange{background:var(--orange-light);color:var(--orange-dark);border-color:transparent;}
+.agent-tag.blue{background:var(--blue-light);color:var(--blue);border-color:transparent;}
+.agent-tag.green{background:var(--green-light);color:var(--green-dark);border-color:transparent;}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:48px;}
+.page-btn{width:40px;height:40px;border-radius:var(--radius-sm);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:var(--ink-70);transition:all .2s;cursor:pointer;}
+.page-btn:hover{border-color:var(--blue-mid);color:var(--blue);background:var(--blue-pale);}
+.page-btn.active{background:var(--blue);border-color:var(--blue);color:white;}
+.page-btn.arrow{font-size:16px;}
+
+/* FEATURED AGENTS STRIP */
+.featured-strip{background:linear-gradient(135deg,var(--blue-pale),white);border:1px solid var(--blue-light);border-radius:var(--radius-xl);padding:32px;margin-bottom:32px;}
+.featured-strip-title{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.featured-strip-title::before{content:'⭐';font-size:14px;}
+.featured-agents-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:4px;}
+.featured-agent-chip{display:flex;align-items:center;gap:12px;background:white;border-radius:var(--radius-md);border:1px solid var(--border);padding:12px 16px;flex-shrink:0;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm);}
+.featured-agent-chip:hover{border-color:var(--orange);box-shadow:0 4px 14px rgba(244,123,32,0.15);}
+.featured-agent-chip .chip-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;font-weight:800;color:white;flex-shrink:0;}
+.chip-name{font-size:14px;font-weight:600;color:var(--ink);}
+.chip-listings{font-size:12px;color:var(--ink-40);}
+.chip-rating{font-size:12px;color:var(--orange);font-weight:600;}
+
+/* FOOTER */
+.footer{background:var(--ink);color:white;padding:64px 0 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px;}
+.footer-brand-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;margin:16px 0 24px;max-width:280px;}
+.footer-social{display:flex;gap:10px;}
+.footer-social-btn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.5);font-size:14px;transition:all .2s;}
+.footer-social-btn:hover{border-color:var(--orange);color:var(--orange);background:rgba(244,123,32,0.1);}
+.footer-col-title{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:20px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-link{font-size:14px;color:rgba(255,255,255,0.55);transition:color .2s;}
+.footer-link:hover{color:white;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;display:flex;align-items:center;justify-content:space-between;}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.35);}
+.footer-copy span{color:var(--orange);}
+.footer-legal{display:flex;gap:20px;}
+.footer-legal a{font-size:13px;color:rgba(255,255,255,0.35);transition:color .2s;}
+.footer-legal a:hover{color:rgba(255,255,255,0.6);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp .6s cubic-bezier(.22,1,.36,1) both;}
+.delay-1{animation-delay:.1s;}.delay-2{animation-delay:.2s;}.delay-3{animation-delay:.3s;}.delay-4{animation-delay:.4s;}.delay-5{animation-delay:.5s;}.delay-6{animation-delay:.6s;}
+
+@media(max-width:1024px){.agents-layout{grid-template-columns:1fr;}.filter-panel{position:static;}.agents-grid{grid-template-columns:repeat(2,1fr);}.footer-grid{grid-template-columns:1fr 1fr;gap:32px;}}
+@media(max-width:768px){.nav-links,.nav-actions{display:none;}.nav-mobile-toggle{display:flex;}.agents-grid{grid-template-columns:1fr;}.agent-search-bar{flex-direction:column;padding:12px;border-radius:var(--radius-lg);}.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;gap:16px;text-align:center;}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg></div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="search.html?type=sale" class="nav-link">Buy</a>
+      <a href="search.html?type=rent" class="nav-link">Rent</a>
+      <a href="search.html?type=sale" class="nav-link">Sell</a>
+      <a href="agents.html" class="nav-link active">Agents</a>
+      <a href="search.html?type=commercial" class="nav-link">Commercial</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-ghost">Sign in</a>
+      <a href="login.html#register" class="btn-primary">List Property</a>
+    </div>
+    <button class="nav-mobile-toggle" onclick="document.getElementById('mobileNav').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" onclick="document.getElementById('mobileNav').classList.remove('open')">✕</button>
+  <a href="search.html?type=sale" class="mobile-nav-link">Buy</a>
+  <a href="search.html?type=rent" class="mobile-nav-link">Rent</a>
+  <a href="search.html?type=sale" class="mobile-nav-link">Sell</a>
+  <a href="agents.html" class="mobile-nav-link">Agents</a>
+  <a href="search.html?type=commercial" class="mobile-nav-link">Commercial</a>
+  <a href="blog.html" class="mobile-nav-link">Blog</a>
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:32px;">
+    <a href="login.html" class="btn-ghost" style="text-align:center">Sign in</a>
+    <a href="login.html#register" class="btn-primary" style="text-align:center;justify-content:center;padding:14px">List Property</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"><div class="page-hero-grid"></div><div class="page-hero-glow"></div></div>
+  <div class="container page-hero-content">
+    <div class="page-eyebrow">Licensed & Verified</div>
+    <h1 class="page-title">Find a Trusted <em>Agent</em><br>Near You</h1>
+    <p class="page-subtitle">Connect with over 1,200 verified real estate professionals across Botswana's top cities.</p>
+    <div class="agent-search-bar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D1B2A" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input class="agent-search-input" type="text" placeholder="Search by agent name or agency..."/>
+      <div class="agent-search-divider"></div>
+      <select class="agent-search-select">
+        <option>All Cities</option>
+        <option>Gaborone</option>
+        <option>Francistown</option>
+        <option>Maun</option>
+        <option>Kasane</option>
+        <option>Serowe</option>
+        <option>Lobatse</option>
+      </select>
+      <button class="agent-search-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        Search
+      </button>
+    </div>
+    <div class="stats-strip">
+      <div><div class="strip-stat-num">1,200<span>+</span></div><div class="strip-stat-lbl">Verified agents</div></div>
+      <div><div class="strip-stat-num">28<span>+</span></div><div class="strip-stat-lbl">Cities covered</div></div>
+      <div><div class="strip-stat-num">4.8<span>★</span></div><div class="strip-stat-lbl">Avg. rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="agents-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="filter-panel fade-up">
+      <div class="filter-section">
+        <div class="filter-title">Location <span class="filter-clear" onclick="clearFilters()">Clear all</span></div>
+        <div class="filter-check-list">
+          <label class="filter-check"><input type="checkbox" checked/><span class="filter-check-label">Gaborone</span><span class="filter-check-count">482</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Francistown</span><span class="filter-check-count">218</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Maun</span><span class="filter-check-count">97</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Kasane</span><span class="filter-check-count">64</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Serowe</span><span class="filter-check-count">52</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Lobatse</span><span class="filter-check-count">44</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Palapye</span><span class="filter-check-count">38</span></label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">Specialisation</div>
+        <div class="filter-check-list">
+          <label class="filter-check"><input type="checkbox" checked/><span class="filter-check-label">Residential Sales</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Rentals</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Commercial</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Land & Plots</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">Luxury Homes</span></label>
+          <label class="filter-check"><input type="checkbox"/><span class="filter-check-label">New Developments</span></label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">Minimum Rating</div>
+        <div class="rating-btns">
+          <button class="rating-btn" onclick="activateRating(this)">Any</button>
+          <button class="rating-btn active" onclick="activateRating(this)">3★+</button>
+          <button class="rating-btn" onclick="activateRating(this)">4★+</button>
+          <button class="rating-btn" onclick="activateRating(this)">4.5★+</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-title">Verified Only</div>
+        <label class="filter-check">
+          <input type="checkbox" checked/>
+          <span class="filter-check-label">Show verified agents only</span>
+        </label>
+      </div>
+
+      <button class="filter-apply-btn" onclick="applyFilters()">Apply Filters</button>
+    </aside>
+
+    <!-- AGENTS MAIN -->
+    <div class="agents-main">
+
+      <!-- Featured strip -->
+      <div class="featured-strip fade-up">
+        <div class="featured-strip-title">Top Rated This Month</div>
+        <div class="featured-agents-row">
+          <a href="agent-profile.html" class="featured-agent-chip">
+            <div class="chip-avatar av-orange">TM</div>
+            <div><div class="chip-name">Thabo Mosweu</div><div class="chip-listings">48 listings</div><div class="chip-rating">★ 4.9</div></div>
+          </a>
+          <a href="agent-profile.html" class="featured-agent-chip">
+            <div class="chip-avatar av-blue">KS</div>
+            <div><div class="chip-name">Kefilwe Sithole</div><div class="chip-listings">36 listings</div><div class="chip-rating">★ 4.8</div></div>
+          </a>
+          <a href="agent-profile.html" class="featured-agent-chip">
+            <div class="chip-avatar av-green">BN</div>
+            <div><div class="chip-name">Boitumelo Nkosi</div><div class="chip-listings">29 listings</div><div class="chip-rating">★ 4.8</div></div>
+          </a>
+          <a href="agent-profile.html" class="featured-agent-chip">
+            <div class="chip-avatar av-purple">LD</div>
+            <div><div class="chip-name">Lesego Dube</div><div class="chip-listings">22 listings</div><div class="chip-rating">★ 4.7</div></div>
+          </a>
+          <a href="agent-profile.html" class="featured-agent-chip">
+            <div class="chip-avatar av-teal">MS</div>
+            <div><div class="chip-name">Mpho Segathe</div><div class="chip-listings">19 listings</div><div class="chip-rating">★ 4.7</div></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="agents-toolbar">
+        <div class="agents-count">Showing <strong>48 agents</strong> in Gaborone</div>
+        <select class="sort-select">
+          <option>Sort: Top Rated</option>
+          <option>Sort: Most Listings</option>
+          <option>Sort: Most Reviews</option>
+          <option>Sort: Newest</option>
+        </select>
+      </div>
+
+      <!-- Grid -->
+      <div class="agents-grid" id="agentsGrid">
+
+        <!-- Agent 1 -->
+        <div class="agent-card fade-up">
+          <div class="agent-card-cover cover-blue"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-blue">TM</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Thabo Mosweu</div>
+            <div class="agent-agency">Knight Frank Botswana</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★★</span><span class="agent-rating-num">4.9</span><span class="agent-rating-count">(127 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Gaborone, CBD</div>
+            <div class="agent-tags"><span class="agent-tag orange">Luxury</span><span class="agent-tag blue">Commercial</span><span class="agent-tag">Residential</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">48</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">6yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">240</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent 2 -->
+        <div class="agent-card fade-up delay-1">
+          <div class="agent-card-cover cover-orange"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-orange">KS</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Kefilwe Sithole</div>
+            <div class="agent-agency">Re/Max Botswana</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★★</span><span class="agent-rating-num">4.8</span><span class="agent-rating-count">(98 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Francistown</div>
+            <div class="agent-tags"><span class="agent-tag green">Rentals</span><span class="agent-tag">Residential</span><span class="agent-tag">New Builds</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">36</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">4yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">180</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent 3 -->
+        <div class="agent-card fade-up delay-2">
+          <div class="agent-card-cover cover-green"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-green">BN</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Boitumelo Nkosi</div>
+            <div class="agent-agency">Pam Golding Properties</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★★</span><span class="agent-rating-num">4.8</span><span class="agent-rating-count">(84 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Gaborone, Extension 9</div>
+            <div class="agent-tags"><span class="agent-tag blue">Luxury</span><span class="agent-tag orange">Land & Plots</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">29</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">8yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">310</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent 4 -->
+        <div class="agent-card fade-up delay-3">
+          <div class="agent-card-cover cover-teal"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-teal">MS</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Mpho Segathe</div>
+            <div class="agent-agency">Century 21 Botswana</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★★</span><span class="agent-rating-num">4.7</span><span class="agent-rating-count">(71 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Maun</div>
+            <div class="agent-tags"><span class="agent-tag">Residential</span><span class="agent-tag green">Rentals</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">22</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">5yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">145</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent 5 -->
+        <div class="agent-card fade-up delay-4">
+          <div class="agent-card-cover cover-purple"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-purple">LD</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Lesego Dube</div>
+            <div class="agent-agency">Botswana Realtors</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★★</span><span class="agent-rating-num">4.7</span><span class="agent-rating-count">(63 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Gaborone, Phakalane</div>
+            <div class="agent-tags"><span class="agent-tag orange">Luxury</span><span class="agent-tag blue">Commercial</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">19</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">7yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">198</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent 6 -->
+        <div class="agent-card fade-up delay-5">
+          <div class="agent-card-cover cover-navy"></div>
+          <div class="agent-card-body">
+            <div class="agent-avatar-wrap">
+              <div class="agent-avatar av-navy">OM</div>
+              <div class="agent-verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Verified</div>
+            </div>
+            <div class="agent-name">Ontlametse Molefe</div>
+            <div class="agent-agency">JHI Properties</div>
+            <div class="agent-rating"><span class="agent-stars">★★★★☆</span><span class="agent-rating-num">4.5</span><span class="agent-rating-count">(55 reviews)</span></div>
+            <div class="agent-location"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Kasane</div>
+            <div class="agent-tags"><span class="agent-tag">Residential</span><span class="agent-tag green">Land & Plots</span></div>
+            <div class="agent-stats">
+              <div class="agent-stat"><div class="agent-stat-val">16</div><div class="agent-stat-lbl">Listings</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">3yr</div><div class="agent-stat-lbl">Experience</div></div>
+              <div class="agent-stat"><div class="agent-stat-val">89</div><div class="agent-stat-lbl">Sold</div></div>
+            </div>
+            <div class="agent-card-actions">
+              <a href="listing.html" class="agent-contact-btn">Contact Agent</a>
+              <a href="agent-profile.html" class="agent-profile-btn">Profile</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /agents-grid -->
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="page-btn arrow">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">4</button>
+        <span style="color:var(--ink-40);padding:0 4px">...</span>
+        <button class="page-btn">12</button>
+        <button class="page-btn arrow">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <div class="nav-logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg></div>
+          <span class="nav-logo-text" style="color:white">Home<span style="color:var(--orange)">Finder</span></span>
+        </a>
+        <p class="footer-brand-desc">Botswana's most trusted property marketplace. Find homes, apartments, commercial spaces and plots across all major cities.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-btn">f</a><a href="#" class="footer-social-btn">X</a><a href="#" class="footer-social-btn">in</a><a href="#" class="footer-social-btn">▶</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Property</div>
+        <div class="footer-links">
+          <a href="search.html?type=sale" class="footer-link">Buy a home</a>
+          <a href="search.html?type=rent" class="footer-link">Rent a home</a>
+          <a href="search.html?type=commercial" class="footer-link">Commercial</a>
+          <a href="search.html" class="footer-link">New developments</a>
+          <a href="search.html" class="footer-link">Land & plots</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">For Agents</div>
+        <div class="footer-links">
+          <a href="login.html#register" class="footer-link">List a property</a>
+          <a href="dashboard.html" class="footer-link">Agent dashboard</a>
+          <a href="login.html#register" class="footer-link">Pricing plans</a>
+          <a href="agents.html" class="footer-link">Agent resources</a>
+          <a href="agents.html" class="footer-link">Get verified</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="about.html" class="footer-link">About us</a>
+          <a href="blog.html" class="footer-link">Blog & news</a>
+          <a href="about.html#careers" class="footer-link">Careers</a>
+          <a href="about.html#contact" class="footer-link">Contact us</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>HomeFinder Botswana</span>. All rights reserved.</div>
+      <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Cookie Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/agents.js" defer></script>
+</body>
+</html>

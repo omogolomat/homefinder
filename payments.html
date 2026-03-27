@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-BW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="homefinder-api-base" content=""/>
+<meta name="findbw-api-base" content=""/>
+<meta name="supabase-url" content=""/>
+<meta name="supabase-anon-key" content=""/>
+<title>Agent billing — HomeFinder Botswana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="form-page">
+
+<nav class="nav scrolled" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9" fill="rgba(255,255,255,0.5)"/></svg>
+      </div>
+      <span class="nav-logo-text">Home<span>Finder</span></span>
+    </a>
+    <div class="nav-actions" id="navActions">
+      <span class="nav-cluster nav-cluster--guest">
+        <a href="login.html" class="btn-ghost nav-signin">Sign in</a>
+        <a href="register.html" class="btn-ghost nav-register">Register</a>
+      </span>
+      <span class="nav-cluster nav-cluster--buyer" hidden>
+        <a href="index.html#explore" class="btn-ghost">Browse</a>
+        <a href="favorites.html" class="btn-ghost nav-fav">Favourites</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+      <span class="nav-cluster nav-cluster--agent" hidden>
+        <a href="favorites.html" class="btn-ghost nav-fav">Favourites</a>
+        <a href="payments.html" class="btn-ghost nav-payments" aria-current="page">Billing</a>
+        <a href="list-property.html" class="btn-primary nav-list">List property</a>
+        <button type="button" class="btn-ghost nav-signout">Sign out</button>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<main class="container" style="padding-top:24px">
+  <div id="payments-gate-signin" class="form-card">
+    <h1>Agent billing</h1>
+    <p class="lede">This page is for <strong>verified agents</strong> paying HomeFinder for advertising and subscriptions. Sign in to create a payment intent.</p>
+    <p class="lede">Buyers and renters do not pay rent or purchase deposits here — those are arranged with the listing agent.</p>
+    <a href="login.html" class="btn-primary">Sign in</a>
+  </div>
+  <div id="payments-gate-buyer" class="form-card" hidden>
+    <h1>Agent billing</h1>
+    <p class="lede">Billing on FindBW is for <strong>agents</strong> who advertise on the platform. Your personal account is for searching and saving listings.</p>
+    <p class="lede">Are you an agency? <a href="index.html#for-agents">See how to apply and advertise</a>.</p>
+    <a href="index.html#for-agents" class="btn-primary">Advertising &amp; contact</a>
+  </div>
+  <div id="payments-form-root" class="form-card" hidden>
+    <h1>Agent advertising payment (BWP)</h1>
+    <p class="lede">Pay HomeFinder for featured placement, subscription, or other advertising. Orange Money and FNB routes record a pending intent until your gateway is connected.</p>
+    <form id="pay-form">
+      <div class="form-fields">
+        <div class="form-field">
+          <label for="amount">Amount (BWP)</label>
+          <input id="amount" name="amount" type="number" min="1" step="1" value="250" required/>
+        </div>
+        <div class="form-field">
+          <label for="provider">Provider</label>
+          <select id="provider" name="provider">
+            <option value="OrangeMoney">Orange Money</option>
+            <option value="Fnb">FNB</option>
+          </select>
+        </div>
+      </div>
+      <p id="form-err" class="form-error" role="alert" hidden></p>
+      <div id="form-ok" class="prop-api-banner is-live" role="status" hidden style="margin-top:12px"></div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Create payment intent</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script type="module" src="/js/core.js"></script>
+<script src="/js/nav.js" defer></script>
+<script src="/js/payments.js" defer></script>
+</body>
+</html>

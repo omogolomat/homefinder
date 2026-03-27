@@ -1,0 +1,13 @@
+bin/
+obj/
+out/
+*.user
+*.suo
+.vs/
+.idea/
+*.log
+node_modules/
+web/dist/
+web/node_modules/
+.env
+.env.*.local
